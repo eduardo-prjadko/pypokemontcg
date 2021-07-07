@@ -1,8 +1,9 @@
 """Basic setup for the other modules requests"""
 
 from collections import namedtuple
+import math
 
-Result = namedtuple('result', ['json', 'status_code', 'page'])
+Result = namedtuple('result', ['json', 'status_code', 'page', 'page_size', 'total_count'])
 
 
 class BaseApi:
@@ -28,8 +29,13 @@ class BaseApi:
         if response.status_code == 200:
             json_response = response.json()
             page = json_response['page']
+            page_size = json_response['pageSize']
+            total_count = json_response['totalCount']
+            pages = math.ceil(total_count / page_size)
         else:
             json_response = None
             page = None
-        output = Result(json_response, response.status_code, page)
+            page_size = None
+            total_count = None
+        output = Result(json_response, response.status_code, page, page_size, total_count)
         return output

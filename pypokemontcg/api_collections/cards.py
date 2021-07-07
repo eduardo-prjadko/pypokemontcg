@@ -22,9 +22,10 @@ class Cards(BaseApi):
         params = self._set_params(self.PAGE_COUNT, self.PAGE_SIZE)
         return self.get_result(f'{self.base_url}{self.ENDPOINT}', params=params)
     
+    def has_next():
+        pass
+
     def next(self):
         self.PAGE_COUNT += 1
         params = self._set_params(self.PAGE_COUNT, self.PAGE_SIZE)
         return self.get_result(f'{self.base_url}{self.ENDPOINT}', params=params)
-    
-    
