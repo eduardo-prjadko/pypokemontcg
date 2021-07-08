@@ -53,7 +53,7 @@ class BaseApi:
             has_next = None
         
         output = Result(
-            json_response, 
+            json_response['data'], 
             response.status_code, 
             page, 
             page_size, 
