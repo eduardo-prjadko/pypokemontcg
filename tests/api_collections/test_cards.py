@@ -11,3 +11,8 @@ def test_cards_all(pokemon_client):
     assert first_r.page == 1
     assert second_r.status_code == 200
     assert second_r.page == 2
+
+def test_last_has_next(pokemon_client):
+    r = pokemon_client.cards.all()
+    r = pokemon_client.cards.all(page=r.pages)
+    assert r.has_next == False
