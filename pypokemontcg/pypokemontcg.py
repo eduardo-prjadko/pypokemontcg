@@ -2,13 +2,9 @@
 Code for the PokemonTCG class, that wraps the APIs into a single client object.
 Each pokemon microservice have its dedicate module inside the api_collections package
 """
-from collections import namedtuple
-
 import requests
 
-from .api_collections import (
-    Cards
-)
+from .base_api import BaseApi
 
 
 class PokemonTCG:
@@ -26,13 +22,8 @@ class PokemonTCG:
         self.api_key = api_key
         self.session = self._init_session(session)
 
-        config = namedtuple(
-            'config', ['session']
-        )
-
-        cfg = config(self.session)
-
-        self.cards = Cards(cfg)
+        self.cards = BaseApi(session=self.session, endpoint='cards')
+        self.sets = BaseApi(session=self.session, endpoint='sets')
 
     def _get_header(self):
         """
