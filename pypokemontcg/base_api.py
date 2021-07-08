@@ -18,14 +18,15 @@ Result = namedtuple(
 
 class BaseApi:
     """
-    Base Class for all the other api_collections modules
+    Base Class for all the api endpoints
     """
-
-    def __init__(self, config):
-        self.session = config.session
+    
+    def __init__(self, session, endpoint):
+        self.endpoint = endpoint
+        self.session = session
         self.base_url = "https://api.pokemontcg.io/v2/"
     
-    def get_result(self, url, params=None) -> Result:
+    def _get_result(self, url, params=None) -> Result:
         """
         Given a url, fetch the json result
 
@@ -60,3 +61,32 @@ class BaseApi:
             pages,
             has_next)
         return output
+
+    def _set_params(self, page, page_size):
+        return {
+            'page': page,
+            'pageSize': page_size
+        }
+    
+    def all(self, page=1, page_size=250):
+        f"""
+        Download all {self.endpoint} data, with the maximum page size of 250
+
+        :param page: page number
+        :param page_size: size of the page. Max size is 250
+
+        :return: namedtuple
+        """
+        self.count = page
+        self.size = page_size
+        params = self._set_params(self.count, self.size)
+        return self._get_result(f'{self.base_url}{self.endpoint}', params=params)
+
+    def next(self):
+        """
+        calls the next page based on the last method all() page 
+
+        :return: namedtuple
+        """
+        self.count += 1
+        return self.all(page=self.count, page_size=self.size)
