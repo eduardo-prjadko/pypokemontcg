@@ -37,5 +37,4 @@ class Cards(BaseApi):
         :return: namedtuple
         """
         self.count += 1
-        params = self._set_params(self.count, self.size)
-        return self.get_result(f'{self.base_url}{self.ENDPOINT}', params=params)
+        return self.all(page=self.count, page_size=self.size)
