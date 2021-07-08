@@ -1,14 +1,11 @@
-
-
-from pypokemontcg.api_collections import base_api
 from .base_api import BaseApi
 
 
 class Cards(BaseApi):
 
     ENDPOINT = 'cards'
-    PAGE_COUNT = None
-    PAGE_SIZE = None
+    count = None
+    size = None
 
     def _set_params(self, page, page_size):
         return {
@@ -17,15 +14,12 @@ class Cards(BaseApi):
         }
     
     def all(self, page=1, page_size=250):
-        self.PAGE_COUNT = page
-        self.PAGE_SIZE = page_size
-        params = self._set_params(self.PAGE_COUNT, self.PAGE_SIZE)
+        self.count = page
+        self.size = page_size
+        params = self._set_params(self.count, self.size)
         return self.get_result(f'{self.base_url}{self.ENDPOINT}', params=params)
-    
-    def has_next():
-        pass
 
     def next(self):
-        self.PAGE_COUNT += 1
-        params = self._set_params(self.PAGE_COUNT, self.PAGE_SIZE)
+        self.count += 1
+        params = self._set_params(self.count, self.size)
         return self.get_result(f'{self.base_url}{self.ENDPOINT}', params=params)

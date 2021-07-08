@@ -3,7 +3,17 @@
 from collections import namedtuple
 import math
 
-Result = namedtuple('result', ['json', 'status_code', 'page', 'page_size', 'total_count'])
+Result = namedtuple(
+    'result', 
+    [
+        'json', 
+        'status_code', 
+        'page', 
+        'page_size', 
+        'total_count', 
+        'pages',
+        'has_next'
+    ])
 
 
 class BaseApi:
@@ -32,10 +42,21 @@ class BaseApi:
             page_size = json_response['pageSize']
             total_count = json_response['totalCount']
             pages = math.ceil(total_count / page_size)
+            has_next = True if page < pages else False
         else:
             json_response = None
             page = None
             page_size = None
             total_count = None
-        output = Result(json_response, response.status_code, page, page_size, total_count)
+            pages = None
+            has_next = None
+        
+        output = Result(
+            json_response, 
+            response.status_code, 
+            page, 
+            page_size, 
+            total_count,
+            pages,
+            has_next)
         return output
