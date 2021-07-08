@@ -3,7 +3,8 @@ from . import pokemon_client
 
 def test_cards_all(pokemon_client):
     first_r = pokemon_client.cards.all()
-    second_r = pokemon_client.cards.next()
+    if first_r.has_next:
+        second_r = pokemon_client.cards.next()
     assert first_r.has_next != None
     assert isinstance(first_r.pages, int) 
     assert first_r.status_code == 200
