@@ -1,4 +1,3 @@
-from . import pokemon_client
 
 
 def test_cards_all(pokemon_client):
