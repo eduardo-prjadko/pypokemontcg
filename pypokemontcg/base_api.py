@@ -39,27 +39,27 @@ class BaseApi:
         
         if response.status_code == 200:
             json_response = response.json()
-            page = json_response['page']
-            page_size = json_response['pageSize']
-            total_count = json_response['totalCount']
-            pages = math.ceil(total_count / page_size)
-            has_next = True if page < pages else False
+            pages = math.ceil(json_response['totalCount'] / json_response['pageSize'])
+            output = Result(
+                json_response['data'], 
+                response.status_code, 
+                json_response['page'], 
+                json_response['pageSize'], 
+                json_response['totalCount'],
+                pages,
+                True if json_response['page'] < pages else False
+            )
         else:
-            json_response = None
-            page = None
-            page_size = None
-            total_count = None
-            pages = None
-            has_next = None
+            output = Result(
+                None, 
+                response.status_code, 
+                None, 
+                None, 
+                None,
+                None,
+                None
+            )
         
-        output = Result(
-            json_response['data'], 
-            response.status_code, 
-            page, 
-            page_size, 
-            total_count,
-            pages,
-            has_next)
         return output
 
     def _set_params(self, page, page_size):
