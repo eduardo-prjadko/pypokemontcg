@@ -7,7 +7,7 @@ def read(fname):
 # This call to setup() does all the work
 setup(
     name="pypokemontcg",
-    version="0.0.0",
+    version="0.0.3",
     description="SDK for pokemontcg APIs",
     long_description=read('README.md'),
     long_description_content_type="text/markdown",
